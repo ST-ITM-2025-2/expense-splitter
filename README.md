@@ -43,9 +43,9 @@ See the [Contributing Guidelines](/CONTRIBUTING.md).
 Name | GitHub ID | Group Name |
 ------|-----------|------------|
  Josue Obregon | @jobregon1212 | Group Alpha (example) |
- YOUR_NAME     | @yourgithubid | YOUR_GROUP_NAME |
- YOUR_NAME     | @yourgithubid | YOUR_GROUP_NAME |
- YOUR_NAME     | @yourgithubid | YOUR_GROUP_NAME |
+ Lim Donghyun    | @ehdgus4173 | Kim Byungchan  |
+ Kim Junseop     | @Junseop1228 | Kim Byungchan |
+ Byungchan Kim   | @byungchan3077 | Kim Byungchan |
 
 ---
 
