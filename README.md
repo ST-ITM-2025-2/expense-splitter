@@ -45,7 +45,9 @@ Name | GitHub ID | Group Name |
  Kwon Sihyun | @bbirribbarribbo | P.P.G |
  Lee Jiseop  | @ljseop1030 | P.P.G |
  Na Hyanghee | @ihh25 | P.P.G |
-
+ Minhee     | @MHJeong730 | BranchOps |
+ Agnes      | @sengA7 | BranchOps |
+ Sascha Huber     | @saschahuberzh | BranchOps |
 
 ---
 
