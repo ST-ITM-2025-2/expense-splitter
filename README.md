@@ -43,9 +43,9 @@ See the [Contributing Guidelines](/CONTRIBUTING.md).
 Name | GitHub ID | Group Name |
 ------|-----------|------------|
  Josue Obregon | @jobregon1212 | Group Alpha (example) |
- YOUR_NAME     | @yourgithubid | YOUR_GROUP_NAME |
- YOUR_NAME     | @yourgithubid | YOUR_GROUP_NAME |
- YOUR_NAME     | @yourgithubid | YOUR_GROUP_NAME |
+ Minhee     | @MHJeong730 | BranchOps |
+ Agnes      | @sengA7 | BranchOps |
+ Sascha Huber     | @saschahuberzh | BranchOps |
 
 ---
 
