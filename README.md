@@ -42,7 +42,7 @@ See the [Contributing Guidelines](/CONTRIBUTING.md).
 ### Table
 Name | GitHub ID | Group Name |
 ------|-----------|------------|
- Josue Obregon | @jobregon1212 | Group Alpha (example) |
+ 
  Kim Hyewon     | @Kimhyewon0621 | githero |
  Kwon Ayeong     | @AyeongKwon | githero |
  Kim Mingyeong    | @mingyeonggg | githero |
