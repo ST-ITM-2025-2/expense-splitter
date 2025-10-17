@@ -10,7 +10,7 @@ This repository is used for the Open Source Software class assignment. Students 
 - Form groups of 3 students, no more no less. There should be 9 groups of 3 students each.
 - Choose a group name and a group captain.
 - Team captain Forks and clones the repo
-- Team captain add the information of the grupo memebers to the  Contributors table via PR.
+- Team captain add the information of the group memebers to the  Contributors table via PR.
 - Open a PR with label `roster`
 
 ### Phase 2 (Code Review 1)
@@ -42,10 +42,9 @@ See the [Contributing Guidelines](/CONTRIBUTING.md).
 ### Table
 Name | GitHub ID | Group Name |
 ------|-----------|------------|
- Josue Obregon | @jobregon1212 | Group Alpha (example) |
- YOUR_NAME     | @yourgithubid | YOUR_GROUP_NAME |
- YOUR_NAME     | @yourgithubid | YOUR_GROUP_NAME |
- YOUR_NAME     | @yourgithubid | YOUR_GROUP_NAME |
+ Birk | @BirkLauritzen | Libima |
+ Matias | @Poppaluu | Libima |
+ Lim | @driedoutjerky | Libima |
 
 ---
 
