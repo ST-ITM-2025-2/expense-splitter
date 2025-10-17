@@ -47,10 +47,10 @@ public class Reports {
 				int totalParticipants = parts.size();
 				BigDecimal share = amount.divide(BigDecimal.valueOf(totalParticipants), 2, RoundingMode.HALF_UP);
 				
-				//Skip payer when applying owed amounts to each participant. 
+				//Skip payer when applying owed amounts to each part
 				for (String p : parts) {
 					if(p==null) continue;
-					if(payer!= null && p.equals(payer)) continue;
+					//if(payer!= null && p.equals(payer)) continue;
 					owed.merge(p, share, BigDecimal::add);
 				}
 			}
