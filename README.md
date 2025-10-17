@@ -42,10 +42,10 @@ See the [Contributing Guidelines](/CONTRIBUTING.md).
 ### Table
 Name | GitHub ID | Group Name |
 ------|-----------|------------|
- Josue Obregon | @jobregon1212 | Group Alpha (example) |
- YOUR_NAME     | @yourgithubid | YOUR_GROUP_NAME |
- YOUR_NAME     | @yourgithubid | YOUR_GROUP_NAME |
- YOUR_NAME     | @yourgithubid | YOUR_GROUP_NAME |
+ Kwon Sihyun | @bbirribbarribbo | P.P.G |
+ Lee Jiseop  | @ljseop1030 | P.P.G |
+ Na Hyanghee | @NaHyanghee | P.P.G |
+
 
 ---
 
