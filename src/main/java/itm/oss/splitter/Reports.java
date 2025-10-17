@@ -65,7 +65,7 @@ public class Reports {
 			BigDecimal paidTotal = paid.getOrDefault(name, BigDecimal.ZERO).setScale(2, RoundingMode.HALF_UP);
 			BigDecimal owedTotal = owed.getOrDefault(name, BigDecimal.ZERO).setScale(2, RoundingMode.HALF_UP);
 			BigDecimal net = paidTotal.subtract(owedTotal);
-			result.put(name, new SimplePersonSummary(paidTotal, owedTotal, net));
+      result.put(name, new PersonSummary(paidTotal, owedTotal, net));
 		}
 		return result;
     }
