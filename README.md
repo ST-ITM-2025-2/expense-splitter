@@ -44,7 +44,7 @@ Name | GitHub ID | Group Name |
 ------|-----------|------------|
  Kwon Sihyun | @bbirribbarribbo | P.P.G |
  Lee Jiseop  | @ljseop1030 | P.P.G |
- Na Hyanghee | @NaHyanghee | P.P.G |
+ Na Hyanghee | @ihh25 | P.P.G |
 
 
 ---
