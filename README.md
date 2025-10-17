@@ -42,10 +42,21 @@ See the [Contributing Guidelines](/CONTRIBUTING.md).
 ### Table
 Name | GitHub ID | Group Name |
 ------|-----------|------------|
- Josue Obregon | @jobregon1212 | Group Alpha (example) |
- ParkMinjoon     | ERE252 | OpenMinded |
+  ParkMinjoon     | ERE252 | OpenMinded |
  HongJunsoo     | Jeffrey-Hong1005 |  OpenMinded |
  LeeSeongbin     | @yeonlimee2 |  OpenMinded |
+  Kim Hyewon     | @Kimhyewon0621 | githero |
+ Kwon Ayeong     | @AyeongKwon | githero |
+ Kim Mingyeong     | @mingyeonggg | githero |
+ Oh Kyung Hun  | @ohkyounghun  | Doosan Bears |
+ Kim Gun Woo   | @gunuzello    | Doosan Bears |
+ Kwon Do Hun   | @kwon-dohun   | Doosan Bears |
+ Kwon Sihyun | @bbirribbarribbo | P.P.G |
+ Lee Jiseop  | @ljseop1030 | P.P.G |
+ Na Hyanghee | @ihh25 | P.P.G |
+ Minhee     | @MHJeong730 | BranchOps |
+ Agnes      | @sengA7 | BranchOps |
+ Sascha Huber     | @saschahuberzh | BranchOps |
 
 ---
 
