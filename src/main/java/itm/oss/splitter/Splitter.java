@@ -1,5 +1,7 @@
 package itm.oss.splitter;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 
 public class Splitter {
@@ -12,7 +14,7 @@ public class Splitter {
        *
        * Share = amount / number_of_participants (BigDecimal)
        * Each participant owes their share (negative in their net).
-       * Payer’s net increaseby the full amount (common model).
+       * Payer’s net increase by the full amount (common model).
        * Sum of all nets ~ 0 (within cents).
        * Acceptance Criteria:
        *
@@ -21,7 +23,54 @@ public class Splitter {
        * Nets retrievable via Balance.getNames() / getAmount(name)
        */
       // TODO (Issue 4): equal split math.
-    // Sum nets so total = 0; scale(2) rounding HALF_EVEN when needed.
-    throw new UnsupportedOperationException("computeBalances() not implemented yet");
+
+      Balance result = new Balance();
+      ArrayList<String> names = new ArrayList<>();
+      BigDecimal total = new BigDecimal(0);
+
+      for(Expense item : xs) {
+          String payer = item.getPayer();
+          BigDecimal amount = item.getAmount();
+          ArrayList<String> participants = item.getParticipants();
+          BigDecimal share = amount.divide(BigDecimal.valueOf(participants.size()),2, RoundingMode.HALF_EVEN);
+
+          if(names.contains(payer)) {
+              // just in case if some payer pays more than two times.
+              result.put(payer, result.getAmount(payer).add(amount));
+          } else {
+              result.put(payer, amount);
+              names.add(payer);
+          }
+
+          // Distribute the amount of expense to the participants
+          for(String participant : participants) {
+              if(names.contains(participant)) {
+                  // subtract share of existing person including payer
+                  result.put(participant, result.getAmount(participant).subtract(share));
+              } else {
+                  // subtract share of new person
+                  result.put(participant, share.multiply(BigDecimal.valueOf(-1)));
+                  names.add(participant);
+              }
+          }
+
+          for(String person : names) {
+              total = total.add(result.getAmount(person));
+          }
+          System.out.println("[before distributing] current total net is "+total);
+          if(total.compareTo(BigDecimal.ZERO) != 0) {
+              // current total net
+              result.put(payer, result.getAmount(payer).subtract(total));
+              total = BigDecimal.ZERO;
+          }
+          System.out.println("[after distributing] current total net is "+total);
+      }
+      //Sum nets so total = 0; scale(2) rounding HALF_EVEN when needed.
+
+      for(String person : names) {
+          total = total.add(result.getAmount(person));
+      }
+      System.out.println("The total amount of net is "+total); // should be 0
+      return result;
   }
 }
