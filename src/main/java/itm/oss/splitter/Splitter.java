@@ -3,6 +3,7 @@ package itm.oss.splitter;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Splitter {
 
@@ -29,8 +30,13 @@ public class Splitter {
       BigDecimal total = new BigDecimal(0);
 
       for(Expense item : xs) {
+
           String payer = item.getPayer();
-          BigDecimal amount = item.getAmount();
+          BigDecimal amount = item.getAmount().setScale(2, RoundingMode.HALF_EVEN);
+          if(amount.compareTo(BigDecimal.ZERO) < 0) {
+              // pass the case of negative amount
+              continue;
+          }
           ArrayList<String> participants = item.getParticipants();
           BigDecimal share = amount.divide(BigDecimal.valueOf(participants.size()),2, RoundingMode.HALF_EVEN);
 
@@ -57,20 +63,29 @@ public class Splitter {
           for(String person : names) {
               total = total.add(result.getAmount(person));
           }
-          System.out.println("[before distributing] current total net is "+total);
-          if(total.compareTo(BigDecimal.ZERO) != 0) {
+          // System.out.println("[before distributing] current total net is "+total);
+          if(total.compareTo(BigDecimal.valueOf(0.00)) != 0) {
               // current total net
               result.put(payer, result.getAmount(payer).subtract(total));
-              total = BigDecimal.ZERO;
+              total = BigDecimal.valueOf(0.00);
           }
-          System.out.println("[after distributing] current total net is "+total);
+          // System.out.println("[after distributing] current total net is "+total);
       }
       //Sum nets so total = 0; scale(2) rounding HALF_EVEN when needed.
 
       for(String person : names) {
           total = total.add(result.getAmount(person));
       }
-      System.out.println("The total amount of net is "+total); // should be 0
-      return result;
+      if(total.compareTo(BigDecimal.valueOf(0.00)) != 0) {
+          // decide who will receive the leftover
+          Random random = new Random();
+          String ranName = names.get(random.nextInt(names.size()));
+          result.put(ranName, result.getAmount(ranName).subtract(total));
+
+          return result;
+      } else {
+          return result;
+      }
+//      System.out.println("The total amount of net is "+total); // should be 0
   }
 }
