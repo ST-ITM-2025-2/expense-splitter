@@ -14,7 +14,7 @@ import java.util.ArrayList;
 class SplitterTest {
     private final Splitter splitter = new Splitter();
     @Test
-    @DisplayName("Test for compute balance")
+    @DisplayName("Test for issue4-compute-balance")
     void testComputeBalance() {
         ArrayList<Expense> expensesHappyCase = new ArrayList<Expense>();
 
