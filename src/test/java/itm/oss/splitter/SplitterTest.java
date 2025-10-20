@@ -60,10 +60,11 @@ class SplitterTest {
         assertEquals(resultHappyCase.getAmount("Cara"), BigDecimal.valueOf(-3.33));
 
         // ---------- (2) Edge case: negative amount (should be skipped) ----------
+        // Verify that a negative expense is ignored.
         ArrayList<Expense> edgeCaseNegative = new ArrayList<Expense>();
 
         Expense expense04 = new Expense("2025-10-01",
-                "Alice", BigDecimal.valueOf(-100.00),
+                "Alice", BigDecimal.valueOf(-100.00),// ← negative: expected to be skipped
                 "USD", names, "Food", "Pizza night");
 
         Expense expense05 = new Expense("2025-10-02",
@@ -85,7 +86,7 @@ class SplitterTest {
             System.out.println(name + " : " + resultEdgeNegative.getAmount(name));
         }
 
-
+        // Only 80 + 90 = 170 should be considered (the -100 is ignored).
         assertEquals(resultEdgeNegative.getAmount("Alice"), BigDecimal.valueOf(-56.67));
         assertEquals(resultEdgeNegative.getAmount("Bob"), BigDecimal.valueOf(23.34));
         assertEquals(resultEdgeNegative.getAmount("Cara"), BigDecimal.valueOf(33.33));
