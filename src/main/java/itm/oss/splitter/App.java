@@ -69,7 +69,7 @@ public class App {
   private void addExpenseFlow() throws Exception {
     String date = readLine("Date (YYYY-MM-DD): ");
     String payer = readLine("Payer: ");
-    BigDecimal amount = new BigDecimal(readLine("Amount: "));
+    BigDecimal amount = new readBigDecimal("Amount: ");
     String currency = readLine("Currency (e.g., USD): ");
     String participantsStr = readLine("Participants (semicolon-separated): ");
     ArrayList<String> participants = parseParticipants(participantsStr);
@@ -208,4 +208,24 @@ public class App {
       r = r + sep + xs.get(i);
     return r;
   }
+  
+  private BigDecimal readBigDecimal (String prompt) {
+    while(true) {
+      System.out.print(prompt);
+      String scan = sc.nextLine().trim();
+      try {
+        BigDecimal value = new BigDecimal(scan);
+        if (value.compareTo(BigDecimal.ZERO) <= 0) {
+          System.out.println("Amount must be greater than zero");
+          continue;
+        }
+        return value;
+      } catch (NumberFormatException e) {
+        System.out.println("Please enter a valid number.");
+      }
+    }
+  }
+
+
+
 }
