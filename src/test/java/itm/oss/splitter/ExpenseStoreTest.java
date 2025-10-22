@@ -1,17 +1,18 @@
 package itm.oss.splitter;
 
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.AfterEach; // (추가) 테스트 후 정리를 위해 import
-import org.junit.jupiter.api.Test;
-
 import java.io.File;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.io.FileNotFoundException; // (추가)
+import java.math.BigDecimal; // (추가) 테스트 후 정리를 위해 import
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Scanner; // (추가) 파일을 쉽게 읽기 위해 import
+import java.util.Scanner;
+
+import org.junit.jupiter.api.AfterEach;
+import static org.junit.jupiter.api.Assertions.assertEquals; // (추가)
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach; // (추가) 파일을 쉽게 읽기 위해 import
+import org.junit.jupiter.api.Test;
 
 class ExpenseStoreTest {
 
@@ -131,6 +132,39 @@ class ExpenseStoreTest {
 
             // (4) 끝
             assertFalse(scanner.hasNextLine(), "총 3줄(헤더, 데이터1, 데이터2)이어야 합니다.");
+        }
+    }
+
+    /**
+     * [테스트 3] append() - Edge Case: 참가자 목록이 비어 있는 경우
+     * -> participants 필드가 비어있는 문자열로 올바르게 변환되어야 한다.
+     */
+    @Test
+    void append_edgeCase_zeroParticipants() throws IOException {
+        // 1. Given (준비)
+        ArrayList<String> emptyParticipants = new ArrayList<>();
+        Expense expenseNoParticipants = new Expense(
+                "2025-10-24", "Charlie",
+                new BigDecimal("1000.0"),
+                "USD",
+                emptyParticipants, // 참가자 목록이 비어 있음
+                "Parking", ""
+        );
+
+        // 2. When (실행)
+        store.append(TEST_FILE_PATH, expenseNoParticipants);
+
+        // 3. Then (검증)
+        File testFile = new File(TEST_FILE_PATH);
+        try (Scanner scanner = new Scanner(testFile)) {
+            // 헤더 건너뛰기
+            scanner.nextLine();
+
+            // 데이터 라인 검증: 참가자 필드가 비어 있어야 합니다.
+            String expectedData = "2025-10-24,Charlie,1000.0,USD,,Parking,"; // 참가자 필드가 비어 있음 (쉼표 사이에 아무것도 없음)
+            
+            assertTrue(scanner.hasNextLine());
+            assertEquals(expectedData, scanner.nextLine(), "참가자 필드가 비어 있어야 합니다.");
         }
     }
 }
