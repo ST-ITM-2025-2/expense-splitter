@@ -1,6 +1,9 @@
 package itm.oss.splitter;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class ExpenseStore {
@@ -12,9 +15,33 @@ public class ExpenseStore {
     throw new UnsupportedOperationException("load() not implemented yet");
   }
 
+  /**
+   * Append a new expense to CSV file.
+   * Creates file with header if it doesn't exist.
+   */
   public void append(String path, Expense e) throws IOException {
-    // TODO (Issue 2): append a row to CSV (create file with header if missing).
-    throw new UnsupportedOperationException("append() not implemented yet");
+    
+    File file = new File(path);
+    
+    // Create parent directories if they don't exist
+    File parentDir = file.getParentFile();
+    if (parentDir != null && !parentDir.exists()) {
+      parentDir.mkdirs();
+    }
+    
+    boolean fileExists = file.exists() && file.length() > 0;
+    
+    try (FileWriter fw = new FileWriter(file, true); // append mode
+         PrintWriter pw = new PrintWriter(fw)) {
+      
+      // Write header if file is new or empty
+      if (!fileExists) {
+        pw.println(HEADER);
+      }
+      
+      // Append the expense row
+      pw.println(expenseToCSV(e));
+    }
   }
 
   // Optional helper
@@ -22,4 +49,5 @@ public class ExpenseStore {
     // split by comma (basic), then build Expense (participants split by ';')
     throw new UnsupportedOperationException("parseLine() not implemented yet");
   }
+  
 }
