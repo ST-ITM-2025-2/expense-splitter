@@ -25,26 +25,26 @@ public class ExpenseStore {
       while (scanner.hasNextLine()) {
         // we read one line
         String expenseString = scanner.nextLine();
-        String[] expenseArray = expenseString.split(",");
+        String[] expenseArray = expenseString.split(",", -1);
 
         if(expenseArray.length != 7){
           System.out.println("Skipping row "+row_num+": some elements are missing") ;
           continue ;
         }
 
-        String date = expenseArray[0];
-        String payer = expenseArray[1];
-        BigDecimal amount = new BigDecimal(expenseArray[2]);
+        String date = expenseArray[0].trim();
+        String payer = expenseArray[1].trim();
+        BigDecimal amount = new BigDecimal(expenseArray[2].trim());
         String currency = expenseArray[3];
 
         ArrayList<String> participants = new ArrayList<>(); // expenseArray[4]
         String[] participantArray = expenseArray[4].split(";");
         for(String participant : participantArray){
-          participants.add(participant);
+          participants.add(participant.trim());
         }
 
-        String category = expenseArray[5];
-        String notes = expenseArray[6];
+        String category = expenseArray[5].trim();
+        String notes = expenseArray[6].trim();
 
         Expense e = new Expense(date, payer, amount, currency, participants, category, notes);
         returnList.add(e);
