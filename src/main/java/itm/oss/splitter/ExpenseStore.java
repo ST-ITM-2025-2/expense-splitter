@@ -5,8 +5,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List; // List import 추가
 
 public class ExpenseStore {
+
+  public static final String HEADER = "date,payer,amount,currency,participants,category,notes";
 
   public ArrayList<Expense> load(String path) throws IOException {
     // TODO (Issue 1): parse CSV file into Expense list.
@@ -43,6 +46,22 @@ public class ExpenseStore {
       pw.println(expenseToCSV(e));
     }
   }
+
+  String expenseToCSV(Expense e) {
+        // participants are semicolon-separated
+        String participantsStr = String.join(";", e.getParticipants());
+        
+        // CSV format
+        return String.join(",",
+                e.getDate(),
+                e.getPayer(),
+                String.valueOf(e.getAmount()),
+                e.getCurrency(),
+                participantsStr,
+                e.getCategory(),
+                e.getNotes()
+        );
+    }
 
   // Optional helper
   Expense parseLine(String line) {
