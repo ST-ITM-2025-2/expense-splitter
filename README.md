@@ -1,4 +1,4 @@
-# Settlement Feature (Issue #6)
+# Settlement Feature (Issue #5)
 
 This feature helps settle expenses in a group.  
 It checks who owes money and who should get paid.  
