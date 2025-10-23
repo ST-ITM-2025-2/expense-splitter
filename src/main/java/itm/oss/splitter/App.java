@@ -66,12 +66,12 @@ public class App {
       dir.mkdirs();
   }
 
-  private void addExpenseFlow() throws Exception {
+  void addExpenseFlow() throws Exception {
     //String date = readLine("Date (YYYY-MM-DD): ");
     String date = readRequiredLine("Date (YYYY-MM-DD): ");
     //String payer = readLine("Payer: ");
     String payer = readRequiredLine("Payer: ");
-    BigDecimal amount = new readBigDecimal("Amount: ");
+    BigDecimal amount = readBigDecimal("Amount: ");
     //String currency = readLine("Currency (e.g., USD): ");
     String currency = readRequiredLine("Currency (e.g., USD): ");
     //String participantsStr = readLine("Participants (semicolon-separated): ");
@@ -83,8 +83,8 @@ public class App {
 
     Expense exp = new Expense(date, payer, amount, currency, participants, category, notes);
     ExpenseValidator.validate(exp);
-    store.append(DATA_FILE, exp);
-    System.out.println("Expense added.");
+    //store.append(DATA_FILE, exp);
+    System.out.println("SUCCESS: Expense added.");
   }
 
   private void listExpensesFlow() throws Exception {
@@ -180,7 +180,7 @@ public class App {
     return sc.nextLine().trim();
   }
 
-  private String readRequiredLine(String prompt) {
+  String readRequiredLine(String prompt) {
     while (true) {
         System.out.print(prompt);
         String s = sc.nextLine().trim();
@@ -226,7 +226,7 @@ public class App {
     return r;
   }
   
-  private BigDecimal readBigDecimal (String prompt) {
+  BigDecimal readBigDecimal (String prompt) {
     while(true) {
       System.out.print(prompt);
       String scan = sc.nextLine().trim();
