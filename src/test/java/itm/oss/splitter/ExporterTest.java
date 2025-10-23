@@ -15,7 +15,7 @@ public class ExporterTest {
         ArrayList<Payment> pays = new ArrayList<>();
         pays.add(new Payment("Alice", "Bob",  new BigDecimal("30.0")));
         pays.add(new Payment("Bob", "Charlie",  new BigDecimal("20.0")));
-        pays.add(new Payment("Charlie", "Alice",  new BigDecimal("10.0")));
+        pays.add(new Payment("Charlie", "Alice",  new BigDecimal("33.3333333")));
         String path = "data/expense.sample.csv";
 
         Exporter.writePaymentsCsv(path, pays);
