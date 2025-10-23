@@ -42,6 +42,25 @@ public class ExporterTest {
         String content = Files.readString(file.toPath()).trim();
         assertEquals("from,to,amount", content, "When the list is empty, only header should be present");
     }
+    @Test
+    public void testWritePaymentsCsv_withDecimalAmounts() throws Exception {
+    // 소수점 금액 테스트
+        ArrayList<Payment> pays = new ArrayList<>();
+        pays.add(new Payment("Alice", "Bob", new BigDecimal("33.3333")));
+
+        String path = "data/expense.decimal.csv";
+        Exporter.writePaymentsCsv(path, pays);
+
+    // 파일 생성 확인
+        File file = new File(path);
+        assertTrue(file.exists(), "CSV file should be created");
+
+    // 소수점 처리 검증
+        String content = Files.readString(file.toPath());
+        assertTrue(content.contains("33.3333") || content.contains("33.33"),
+                   "Should properly handle decimal amounts");
+}
+
 }
 
 
