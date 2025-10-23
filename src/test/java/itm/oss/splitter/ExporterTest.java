@@ -15,7 +15,11 @@ public class ExporterTest {
         ArrayList<Payment> pays = new ArrayList<>();
         pays.add(new Payment("Alice", "Bob",  new BigDecimal("30.0")));
         pays.add(new Payment("Bob", "Charlie",  new BigDecimal("20.0")));
+
         pays.add(new Payment("Charlie", "Alice",  new BigDecimal("33.3333333")));
+
+        pays.add(new Payment("Hong", "Lee",  new BigDecimal("2500.0")));
+
         String path = "data/expense.sample.csv";
 
         Exporter.writePaymentsCsv(path, pays);
@@ -42,6 +46,9 @@ public class ExporterTest {
         String content = Files.readString(file.toPath()).trim();
         assertEquals("from,to,amount", content, "When the list is empty, only header should be present");
     }
+    
 }
+
+
 
 
