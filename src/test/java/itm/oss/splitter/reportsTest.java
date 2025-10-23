@@ -85,4 +85,38 @@ class reportsTest {
 
         assertEquals(new BigDecimal("40.00"), totals.get("Shopping"));
     }
+    /**
+     * Tests if categories with different capitalization (e.g., "Food" and "food")
+     * are treated as distinct keys.
+     */
+    @Test
+    @DisplayName("should treat categories with different casing as distinct")
+    void totalsByCategory_WhenCategoriesHaveDifferentCase() {
+        ArrayList<String> participants = new ArrayList<>(Arrays.asList("Alice"));
+        ArrayList<Expense> expenses = new ArrayList<>();
+        expenses.add(new Expense("2024-01-01", "Alice", new BigDecimal("10"), "USD", participants, "Food", ""));
+        expenses.add(new Expense("2024-01-02", "Alice", new BigDecimal("20"), "USD", participants, "food", ""));
+        SimpleMap totals = reports.totalsByCategory(expenses);
+
+        assertEquals(2, totals.keys().length, "Should be two distinct keys.");
+        assertEquals(new BigDecimal("10"), totals.get("Food"), "Total for 'Food' should be 10.");
+        assertEquals(new BigDecimal("20"), totals.get("food"), "Total for 'food' should be 20.");
+    }
+
+    /**
+     * Tests if 'null' categories and empty string "" categories
+     * are correctly grouped together into a single "" key.
+     */
+    @Test
+    @DisplayName("should group 'null' and 'empty string' categories together")
+    void totalsByCategory_WithNullAndEmptyStringCategories() {
+        ArrayList<String> participants = new ArrayList<>(Arrays.asList("Alice"));
+        ArrayList<Expense> expenses = new ArrayList<>();
+        expenses.add(new Expense("2024-01-01", "Alice", new BigDecimal("100"), "USD", participants, null, "Null category"));
+        expenses.add(new Expense("2024-01-02", "Alice", new BigDecimal("50"), "USD", participants, "", "Empty string category"));
+
+        SimpleMap totals = reports.totalsByCategory(expenses);
+        assertEquals(1, totals.keys().length, "Should be only one key.");
+        assertEquals(new BigDecimal("150"), totals.get(""), "Total for '' (null + empty) should be 150.");
+    }
 }
