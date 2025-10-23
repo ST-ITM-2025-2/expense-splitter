@@ -16,7 +16,7 @@ public class Exporter {
 
     // Write each payment line
 
-    for(int i = 0; i < pays.size(); i++) { // this can be expressed as (Payment p : pays) also... feedback? >.<
+    for(int i = 0; i < pays.size(); i++) { 
       Payment p = pays.get(i);
       String from = p.getFrom();
       String to = p.getTo();
