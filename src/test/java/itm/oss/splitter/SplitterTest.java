@@ -15,7 +15,7 @@ class SplitterTest {
     // System Under Test (SUT)
     private final Splitter splitter = new Splitter();
 
-    @Test
+    @Test       
     @DisplayName("Test for issue4-compute-balance")
     void testComputeBalance() {
         // ---------- (1) Happy-path scenario ----------
@@ -61,6 +61,8 @@ class SplitterTest {
 
         // ---------- (2) Edge case: negative amount (should be skipped) ----------
         // Verify that a negative expense is ignored.
+        //Only Bob’s and Cara’s expenses (80 + 90 = 170 total) are valid.
+        // Each participant’s share: 170 / 3 = 56.67
         ArrayList<Expense> edgeCaseNegative = new ArrayList<Expense>();
 
         Expense expense04 = new Expense("2025-10-01",
@@ -87,11 +89,21 @@ class SplitterTest {
         }
 
         // Only 80 + 90 = 170 should be considered (the -100 is ignored).
+        // net(Alice) = 0 - 56.67 = -56.67
+        // net(Bob) = 80 - 56.67 = 23.33
+        // net(Cara) = 90 - 56.67 = 33.33
         assertEquals(resultEdgeNegative.getAmount("Alice"), BigDecimal.valueOf(-56.67));
         assertEquals(resultEdgeNegative.getAmount("Bob"), BigDecimal.valueOf(23.34));
         assertEquals(resultEdgeNegative.getAmount("Cara"), BigDecimal.valueOf(33.33));
 
         // ---------- (3) Edge case: single participant ----------
+        // verify that expenses with only one participant are handled correctly.
+        // the total cost should NOT be divided — payer keeps or loses full amount.
+
+        // In this setup, name list now contains only "Alice"
+        // Bob and Cara will be removed from participants
+        // however, expenses paid by Bob and Cara will still be counted in full
+        // each expense is only for "Alice"
 
         names.remove("Bob");
         names.remove("Cara");
@@ -120,7 +132,10 @@ class SplitterTest {
         for (String name : resultEdgeSingle.getNames()) {
             System.out.println(name + " : " + resultEdgeSingle.getAmount(name));
         }
-
+        // calculations:
+        // net(Alice) = 60 - (60 + 120 + 90) = -210
+        // net(Bob) = 0 + 120 = 120
+        // net(Cara) = 0 + 90 = 90      
         assertEquals(resultEdgeSingle.getAmount("Alice").setScale(2, RoundingMode.HALF_EVEN),
                 BigDecimal.valueOf(-210.00).setScale(2, RoundingMode.HALF_EVEN));
         assertEquals(resultEdgeSingle.getAmount("Bob").setScale(2, RoundingMode.HALF_EVEN),
