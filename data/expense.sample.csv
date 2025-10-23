@@ -1,3 +1,4 @@
 from,to,amount
 Alice,Bob,30.00
 Bob,Charlie,20.00
+Charlie,Alice,10.00
