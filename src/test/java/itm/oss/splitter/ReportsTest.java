@@ -11,7 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Tests for the Reports.totalsByCategory method")
-class reportsTest {
+class ReportsTest {
 
     private Reports reports;
 
