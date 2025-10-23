@@ -7,7 +7,8 @@ import java.util.LinkedHashMap;
 public class Reports {
 
   public SimpleMap totalsByCategory(ArrayList<Expense> xs) {
-    LinkedHashMap<String, BigDecimal> totals = new LinkedHashMap<String, BigDecimal>();
+    LinkedHashMap<String, BigDecimal> totals = new LinkedHashMap<>();
+
     for (int i = 0; i < xs.size(); i++) {
       Expense e = xs.get(i);
       String category = e.getCategory();
