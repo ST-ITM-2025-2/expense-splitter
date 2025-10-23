@@ -1,43 +1,5 @@
-
-# Maven
-target/
-pom.xml.tag
-pom.xml.versionsBackup
-pom.xml.next
-release.properties
-dependency-reduced-pom.xml
-buildNumber.properties
-
-# Eclipse / STS
-.classpath
-.project
-.settings/
-
-# IntelliJ IDEA
-.idea/
-*.iml
-*.iws
-
-# VS Code
-.vscode/
-
-# Log files
-*.log
-
-# Compiled class files
+# Java class files
 *.class
 
-# Package files
-*.jar
-*.war
-*.ear
-
-# Temporary files
-*~
-*.swp
-*.bak
-*.tmp
-
-# OS generated files
-.DS_Store
-Thumbs.db
+# Maven target directory
+/target/
