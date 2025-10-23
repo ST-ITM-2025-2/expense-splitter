@@ -66,4 +66,34 @@ public class ExpenseStoreTest {
         assertEquals("Groceries", e3.getCategory());
         assertEquals("Market", e3.getNotes());
     }
+
+    //empty list test
+    @Test
+    void loadEmptyList()throws Exception{
+        Path emptyCsv = tempDir.resolve("empty.cvs");
+        Files.write(emptyCsv, new  byte[0]); //empty file
+
+        ExpenseStore store = new ExpenseStore();
+        ArrayList<Expense> list = store.load(emptyCsv.toString());
+
+        assertEquals(0, list.size(), "No expenses because the CSV file is empty");
+    }
+
+    //problem with the list
+    @Test
+    void loadInvalidLine() throws Exception {
+        String badData =
+                "date,payer,amount,currency,participants,category,notes\n" +
+                        "invalid_line\n" + // ligne invalide
+                        "2025-10-05,Alice,50.00,USD,Alice;Bob,Food,Pasta\n";
+
+        Path csvFile = tempDir.resolve("malformed.csv");
+        Files.write(csvFile, badData.getBytes(StandardCharsets.UTF_8));
+
+        ExpenseStore store = new ExpenseStore();
+        ArrayList<Expense> list = store.load(csvFile.toString());
+
+        assertEquals(1, list.size(), "Ignore malformed file");
+    }
+
 }
