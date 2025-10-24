@@ -11,13 +11,13 @@ public class Exporter {
 
     File file = new File(path);
 
-    // try-with-resources로 자동 close
+    // Automatically close using try-with-resources
     try (FileWriter writer = new FileWriter(file)) {
 
       // CSV header
       writer.write("from,to,amount");
 
-      // 리스트가 비어 있지 않을 때만 개행 및 내용 작성
+      // Write data only when the list is not null or empty
       if (pays != null && !pays.isEmpty()) {
         writer.write("\n");
 
