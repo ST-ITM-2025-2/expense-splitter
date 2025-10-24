@@ -16,19 +16,24 @@ public class Exporter {
 
       // CSV header
       writer.write("from,to,amount");
+      if( pays == null || pays.isEmpty()) {
+        return;
+      }
 
       // Write data only when the list is not null or empty
-      if (pays != null && !pays.isEmpty()) {
-        writer.write("\n");
-
+      // if value is null, write empty string
         for (int i = 0; i < pays.size(); i++) {
           Payment p = pays.get(i);
-          String from = p.getFrom();
-          String to = p.getTo();
-          String amount = p.getAmount().setScale(2, RoundingMode.HALF_EVEN).toString();
+          String from = (p.getFrom() == null) ? "" : p.getFrom();
+          String to = (p.getTo() == null) ? "" : p.getTo();
+          String amount = "";
+
+          if(p.getAmount() != null) {
+            amount = p.getAmount().setScale(2, RoundingMode.HALF_EVEN).toString();
+          }
           writer.write(from + "," + to + "," + amount + "\n");
         }
-      }
+
     }
   }
 
