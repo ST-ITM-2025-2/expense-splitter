@@ -19,7 +19,7 @@ This project is divided into **three phases**.
 5. TA/Prof. verifies rows are contiguous and merges the PR.
 
 
-## Phase 2 (Code Review) (Oct 23 midnight)
+## Phase 2 (Implementation) (Oct 24 midnight)
 - Students are assigned into groups of 3 (Groups 1–9).
 - Each group selects one Issue from the GitHub Issues tab.
 - The instructor/TA labels the issue with:
@@ -35,7 +35,7 @@ This project is divided into **three phases**.
 
 
 
-## Phase 3 (Cross-Review & Refactor) (Oct 30 midnight)
+## Phase 3 (Cross-Review & Refactor) (Nov 05 midnight)
 - Review assignments are round-robin:
   - Group 1 reviews Group 2
   - Group 2 reviews Group 3
