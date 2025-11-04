@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class SettlementTest {
 
     @Test
-    void simpleTest() {
+    void test_singlePayment_whenOnePersonOwesAnother() {
         // One debtor (-30) and one creditor (+30)
         Balance b = new Balance();
         b.put("Alice", new BigDecimal("-30"));

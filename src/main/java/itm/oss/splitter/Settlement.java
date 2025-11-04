@@ -27,10 +27,12 @@ public class Settlement {
 
     for (Map.Entry<String, BigDecimal> e : map.entrySet()) {
       BigDecimal v = e.getValue();
-      if (v == null)
-        continue;
+      if (v == null) continue; // Skip entries with null balance (should not happen if data is clean)
+
+      // Only consider negative balances larger than epsilon (0.005) for settlement
       if (v.compareTo(BigDecimal.ZERO) < 0 && v.abs().compareTo(eps) > 0)
         neg.add(e);
+        // Only consider positive balances larger than epsilon (0.005) for settlement
       else if (v.compareTo(BigDecimal.ZERO) > 0 && v.abs().compareTo(eps) > 0)
         pos.add(e);
     }
