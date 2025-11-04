@@ -43,7 +43,7 @@ public class ExpenseStore {
           String date = expenseArray[0].trim();
           String payer = expenseArray[1].trim();
           BigDecimal amount = new BigDecimal(expenseArray[2].trim()); // if this is unable, NumberFormatException occurs
-          String currency = expenseArray[3];
+          String currency = expenseArray[3].trim();
 
           ArrayList<String> participants = new ArrayList<>(); // expenseArray[4]
           String[] participantArray = expenseArray[4].split(";");
