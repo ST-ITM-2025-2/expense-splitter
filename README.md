@@ -26,6 +26,34 @@ Small amounts (less than 0.005) are ignored.
 **Result**
 Alice → Charlie: 20
 Alice → Bob: 10
+### Table
+Name | GitHub ID | Group Name | Assigned Group Number |
+------|-----------|------------|------------|
+ Lim Donghyun    | @ehdgus4173 | Kim Byungchan  | 1|
+ Kim Junseop     | @Junseop1228 | Kim Byungchan | 1|
+ Byungchan Kim   | @byungchan3077 | Kim Byungchan | 1|
+ Choi Ju Young | @ichbinju0 | Kka-Mong-Ju | 2|
+ Park So Yeon  | @so-yeon-333 | Kka-Mong-Ju | 2|
+ Kim Gyeong Yoon | @Gyeongyoon | Kka-Mong-Ju | 2|
+ Kim Geon     | @GeonKim0422 | Team F1 | 3|
+ Kim Sinwoo     | @yourgithubid | Team F1 | 3|
+ Kim Junu     | @MelonChicken | Team F1 | 3|
+  ParkMinjoon     | @ERE252 | OpenMinded | 4|
+ HongJunsoo     | @Jeffrey-Hong1005 |  OpenMinded | 4|
+ LeeSeongbin     | @yeonlimee2 |  OpenMinded | 4|
+  Kim Hyewon     | @Kimhyewon0621 | githero | 5|
+ Kwon Ayeong     | @AyeongKwon | githero | 5|
+ Kim Mingyeong     | @mingyeonggg | githero | 5|
+ Oh Kyung Hun  | @ohkyounghun  | Doosan Bears | 6|
+ Kim Gun Woo   | @gunuzello    | Doosan Bears | 6|
+ Kwon Do Hun   | @kwon-dohun   | Doosan Bears | 6|
+ Kwon Sihyun | @bbirribbarribbo | P.P.G | 7|
+ Lee Jiseop  | @ljseop1030 | P.P.G | 7|
+ Na Hyanghee | @ihh25 | P.P.G | 7|
+ Minhee     | @MHJeong730 | BranchOps | 8|
+ Agnes      | @sengA7 | BranchOps | 8|
+ Sascha Huber     | @saschahuberzh | BranchOps | 8|
+
 
 ---
 
