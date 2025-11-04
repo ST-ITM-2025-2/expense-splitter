@@ -31,7 +31,7 @@ public class AppTest {
     @DisplayName("Edge Case: readRequiredLine rejects empty input")
     void testReadRequiredLine_EmptyInput_ShowsError(){
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outContent));System.setOut(new PrintStream(outContent));
+        System.setOut(new PrintStream(outContent));
 
         try{ 
             App app = createAppWithSimulatedInput("\n\nGithero\n");
