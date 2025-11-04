@@ -6,24 +6,23 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Splitter {
+    /**
+ * Computes each participant’s net balance by equally splitting all expenses.
+ * <p>
+ * Rules:
+ * <ul>
+ *   <li>Share = amount / number_of_participants (BigDecimal)</li>
+ *   <li>Each participant owes their share (negative in their net).</li>
+ *   <li>Payer’s net increases by the full amount (common model).</li>
+ *   <li>Sum of all nets ≈ 0 (within rounding error).</li>
+ * </ul>
+ * <p>
+ * Works for the provided sample and handles single-participant cases.
+ *
+ * @return Balance object containing each participant’s final net
+ */
 
   public Balance computeBalances(ArrayList<Expense> xs) {
-      /**
-       * Goal: For each expense, split equally among participants and compute net per person.
-       *
-       * Rules:
-       *
-       * Share = amount / number_of_participants (BigDecimal)
-       * Each participant owes their share (negative in their net).
-       * Payer’s net increase by the full amount (common model).
-       * Sum of all nets ~ 0 (within cents).
-       * Acceptance Criteria:
-       *
-       * Works for the provided 3-row sample.
-       * Handles single-participant case.
-       * Nets retrievable via Balance.getNames() / getAmount(name)
-       */
-      // TODO (Issue 4): equal split math.
 
       Balance result = new Balance();
       ArrayList<String> names = new ArrayList<>();
@@ -83,9 +82,6 @@ public class Splitter {
           result.put(ranName, result.getAmount(ranName).subtract(total));
       }
       return result;
-
-  }
-}
 
   }
 }
