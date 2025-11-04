@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,17 +26,21 @@ public class ReportsTest {
     @Test
     void perPerson_usesCsvLoadedByExpenseStore() throws IOException, URISyntaxException {
 
-        // Load the CSV from test/resources (classpath)
-        var resourceUrl = getClass().getClassLoader().getResource("Expenses_Simple.csv");
-        assertNotNull(resourceUrl, "Resource Expenses_Simple.csv not found on classpath");
-
-        Path path = Path.of(resourceUrl.toURI());
+        // Load the CSV. Prefer classpath (src/test/resources), fallback to repo file (./data/expenses.sample.csv)
+        Path path;
+        var resourceUrl = getClass().getClassLoader().getResource("data/expenses.sample.csv");
+        if (resourceUrl != null) {
+            path = Path.of(resourceUrl.toURI());
+        } else {
+            path = Path.of("data/expenses.sample.csv");
+            assertTrue(Files.exists(path), "Could not find data/expenses.sample.csv on classpath or in project root ./data");
+        }
 
         ExpenseStore store = new ExpenseStore();
         ArrayList<Expense> xs = store.load(path.toString());
 
         // sanity check
-        assertFalse(xs.isEmpty(), "Expenses_Simple.csv should not be empty");
+        assertFalse(xs.isEmpty(), "expenses.sample.csv should not be empty");
 
         Reports reports = new Reports();
         SimplePersonSummaryMap map = reports.perPerson(xs);
@@ -45,6 +50,31 @@ public class ReportsTest {
         assertEquals("Alice", xs.get(0).getPayer(), "the payer should be alice");
         assertEquals(new BigDecimal("60.00"), xs.get(0).getAmount(), "the amount should be 60");
         assertEquals(3, xs.get(0).getParticipants().size(), "There should be three participants");
+    }
+
+    @Test
+    @DisplayName("getNet() reflects paid - owed for CSV sample (recalculateNet)")
+    void perPerson_netFromSimpleCsv() throws IOException, URISyntaxException {
+        // Load the CSV. Prefer classpath (src/test/resources), fallback to repo file (./data/expenses.sample.csv)
+        Path path;
+        var resourceUrl = getClass().getClassLoader().getResource("data/expenses.sample.csv");
+        if (resourceUrl != null) {
+            path = Path.of(resourceUrl.toURI());
+        } else {
+            path = Path.of("data/expenses.sample.csv");
+            assertTrue(Files.exists(path), "Could not find data/expenses.sample.csv on classpath or in project root ./data");
+        }
+
+        ExpenseStore store = new ExpenseStore();
+        ArrayList<Expense> xs = store.load(path.toString());
+
+        Reports reports = new Reports();
+        SimplePersonSummaryMap map = reports.perPerson(xs);
+
+        // Expected from the CSV: each owes 90; paid: Alice 60, Bob 120, Cara 90 -> net: -30, +30, 0
+        assertMoney("-30.00", map.get("Alice").getNet(), "Alice net should be paid-owed");
+        assertMoney("30.00",  map.get("Bob").getNet(),   "Bob net should be paid-owed");
+        assertMoney("0.00",   map.get("Cara").getNet(),  "Cara net should be zero");
     }
 
 // Unit testing
@@ -70,6 +100,24 @@ public class ReportsTest {
             ""
         );
     }
+
+        @Test
+        @DisplayName("getNet() updates correctly across multiple expenses")
+        void perPerson_netTwoExpenses() {
+            Reports reports = new Reports();
+            ArrayList<Expense> xs = new ArrayList<>();
+
+            // Expense 1: Alice pays 10 split by Alice,Bob -> each owes 5
+            xs.add(exp("Alice", "10.00", List.of("Alice", "Bob"), "snacks"));
+            // Expense 2: Bob pays 20 split by Alice,Bob -> each owes 10
+            xs.add(exp("Bob",   "20.00", List.of("Alice", "Bob"), "meal"));
+
+            SimplePersonSummaryMap m = reports.perPerson(xs);
+
+            // Totals: Alice paid 10, owed 15 -> net -5; Bob paid 20, owed 15 -> net +5
+            assertMoney("-5.00", m.get("Alice").getNet(), "Alice net across two expenses");
+            assertMoney("5.00",  m.get("Bob").getNet(),   "Bob net across two expenses");
+        }
 
         @Test
         @DisplayName("Rounding: 10.00 split by 3 uses HALF_UP in code")
@@ -110,5 +158,42 @@ public class ReportsTest {
             SimplePersonSummaryMap m = reports.perPerson(xs);
             assertMoney("0.00", m.get("Alice").getPaidTotal(), "Alice paid");
             assertMoney("0.00", m.get("Bob").getOwedTotal(), "Bob owes");
+        }
+
+        @Test
+        @DisplayName("Single-participant expense (payer included)")
+        void perPerson_singleParticipantExpense() {
+            Reports reports = new Reports();
+            ArrayList<Expense> xs = new ArrayList<>();
+
+            xs.add(exp("Alice", "100.00", List.of("Alice"), "coffee"));
+
+            SimplePersonSummaryMap m = reports.perPerson(xs);
+            assertMoney( "100.00", m.get("Alice").getPaidTotal(), "Alice paid total");
+            assertMoney("100.00", m.get("Alice").getOwedTotal(), "Alice owed total");
+            assertMoney("0.00", m.get("Alice").getNet(), "Paying yourself shouldn't create debt");
+        }
+
+        @Test
+        @DisplayName("Payer not in participants splits owed without auto-including payer")
+        void perPerson_payerNotInParticipants() {
+            Reports reports = new Reports();
+            ArrayList<Expense> xs = new ArrayList<>();
+
+            // Alice pays 90 but only Bob and Cara participate
+            xs.add(exp("Alice", "90.00", List.of("Bob", "Cara"), "meal"));
+
+            SimplePersonSummaryMap m = reports.perPerson(xs);
+
+            // Alice should be +90 net; Bob and Cara -45 each
+            assertMoney("90.00",  m.get("Alice").getNet(), "Alice net should be +90");
+            assertMoney("-45.00", m.get("Bob").getNet(),   "Bob net should be -45");
+            assertMoney("-45.00", m.get("Cara").getNet(),  "Cara net should be -45");
+
+            // Invariant: sum of net == 0
+            BigDecimal sum = m.get("Alice").getNet()
+                .add(m.get("Bob").getNet())
+                .add(m.get("Cara").getNet());
+            assertEquals(0, sum.compareTo(BigDecimal.ZERO), "Sum of net must be zero");
         }
 }
