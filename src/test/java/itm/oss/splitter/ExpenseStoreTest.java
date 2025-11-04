@@ -141,8 +141,7 @@ class ExpenseStoreTest {
      * -> participants 필드가 비어있는 문자열로 올바르게 변환되어야 한다.
      */
     @Test
-    void append_edgeCase_zeroParticipants() throws IOException {
-        // 1. Given (준비)
+    void append_shouldHandleEmptyParticipantsField() throws IOException {
         ArrayList<String> emptyParticipants = new ArrayList<>();
         Expense expenseNoParticipants = new Expense(
                 "2025-10-24", "Charlie",
