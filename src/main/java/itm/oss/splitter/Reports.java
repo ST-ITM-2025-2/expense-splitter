@@ -12,8 +12,11 @@ public class Reports {
     for (int i = 0; i < xs.size(); i++) {
       Expense e = xs.get(i);
       String category = e.getCategory();
-      if (category == null)
-        category = "";
+
+      if (category == null || category.trim().isEmpty()) {
+        category = "uncategorized";
+      }
+      
       BigDecimal amount = e.getAmount();
       BigDecimal current = totals.get(category);
       totals.put(category, current == null ? amount : current.add(amount));
