@@ -47,20 +47,27 @@ public class ExpenseStore {
     }
   }
 
+   /**
+   * (수정됨)
+   * Expense 객체를 CSV 형식의 문자열로 변환합니다.
+   * 쉼표(,)나 큰따옴표(")가 포함된 필드는 escapeCsvField를 사용하여 처리합니다.
+   */
   String expenseToCSV(Expense e) {
-        // participants are semicolon-separated
-        String participantsStr = String.join(";", e.getParticipants());
-        
-        // CSV format
-        return String.join(",",
-                e.getDate(),
-                e.getPayer(),
-                String.valueOf(e.getAmount()),
-                e.getCurrency(),
-                participantsStr,
-                e.getCategory(),
-                e.getNotes()
+        // participants 목록을 먼저 세미콜론(;)으로 연결
+        String participants = String.join(";", e.getParticipants());
+
+        // 각 필드를 헬퍼 메소드를 이용해 이스케이프 처리
+        String data = String.join(",", 
+            escapeCsvField(e.getDate()), 
+            escapeCsvField(e.getPayer()), 
+            e.getAmount().toString(), // 숫자는 이스케이프 필요 없음
+            escapeCsvField(e.getCurrency()), 
+            escapeCsvField(participants), 
+            escapeCsvField(e.getCategory()), 
+            escapeCsvField(e.getNotes())
         );
+        
+        return data;
     }
 
   // Optional helper
@@ -68,5 +75,21 @@ public class ExpenseStore {
     // split by comma (basic), then build Expense (participants split by ';')
     throw new UnsupportedOperationException("parseLine() not implemented yet");
   }
-  
+   private String escapeCsvField(String field) {
+    if (field == null || field.isEmpty()) {
+        return "";
+    }
+
+    // 특수 문자를 포함하고 있는지 확인
+    boolean needsQuotes = field.contains(",") || field.contains("\"") || field.contains("\n");
+
+    if (needsQuotes) {
+        // 1. 기존 큰따옴표를 두 개로 치환
+        String escapedField = field.replace("\"", "\"\"");
+        // 2. 필드 전체를 큰따옴표로 감쌈
+        return "\"" + escapedField + "\"";
+    } else {
+        return field;
+    }
+  }
 }
