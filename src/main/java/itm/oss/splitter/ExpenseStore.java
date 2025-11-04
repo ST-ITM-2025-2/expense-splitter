@@ -22,40 +22,57 @@ public class ExpenseStore {
       }
       // we read the file until all lines have been read
       int row_num = 1;
+
+     
       while (scanner.hasNextLine()) {
-        // we read one line
-        String expenseString = scanner.nextLine();
-        String[] expenseArray = expenseString.split(",", -1);
 
-        if(expenseArray.length != 7){
-          System.out.println("Skipping row "+row_num+": some elements are missing") ;
-          continue ;
+        try{ // try block that handles the error in single line
+
+          // we read one line
+          String expenseString = scanner.nextLine();
+          String[] expenseArray = expenseString.split(",", -1);
+
+          // possible errors in single line :
+          // 1. a line has less or more than 7 elements. 
+          // 2. in String amount(expenseArray[2]), the String has some characters that are not either number or point(.)
+
+          if(expenseArray.length != 7){
+            throw new IllegalArgumentException("The number of argument in this line is not 7");
+          }
+
+          String date = expenseArray[0].trim();
+          String payer = expenseArray[1].trim();
+          BigDecimal amount = new BigDecimal(expenseArray[2].trim()); // if this is unable, NumberFormatException occurs
+          String currency = expenseArray[3];
+
+          ArrayList<String> participants = new ArrayList<>(); // expenseArray[4]
+          String[] participantArray = expenseArray[4].split(";");
+          for(String participant : participantArray){
+            participants.add(participant.trim());
+          }
+
+          String category = expenseArray[5].trim();
+          String notes = expenseArray[6].trim();
+
+          Expense e = new Expense(date, payer, amount, currency, participants, category, notes);
+          returnList.add(e);
+
+        }catch(NumberFormatException e){
+          System.out.println("Error : Cannot change the String into BigDecimal, so skip row "+row_num);
+        }catch(IllegalArgumentException e){
+          System.out.println("Error : The given argument does not match the format, so skip row "+row_num);
+        }catch(Exception e){
+          System.out.println("Error: " + e.getMessage());
+        }finally{
+          row_num++ ;
         }
 
-        String date = expenseArray[0].trim();
-        String payer = expenseArray[1].trim();
-        BigDecimal amount = new BigDecimal(expenseArray[2].trim());
-        String currency = expenseArray[3];
-
-        ArrayList<String> participants = new ArrayList<>(); // expenseArray[4]
-        String[] participantArray = expenseArray[4].split(";");
-        for(String participant : participantArray){
-          participants.add(participant.trim());
-        }
-
-        String category = expenseArray[5].trim();
-        String notes = expenseArray[6].trim();
-
-        Expense e = new Expense(date, payer, amount, currency, participants, category, notes);
-        returnList.add(e);
-        row_num++ ;
-
-      }
+      } // the end of while loop
 
     } catch (Exception e) {
       System.out.println("Error: " + e.getMessage());
     }
-    // throw new UnsupportedOperationException("load() not implemented yet");
+
     return returnList ;
   }
 
