@@ -12,6 +12,8 @@ import java.util.Map;
  */
 public class Settlement {
 
+    private static final BigDecimal eps = new BigDecimal("0.005");
+
   public static ArrayList<Payment> suggest(Balance b) {
     ArrayList<Payment> pay = new ArrayList<>();
 
@@ -21,7 +23,7 @@ public class Settlement {
     // Split into debtors (negative) and creditors (positive)
     List<Map.Entry<String, BigDecimal>> neg = new ArrayList<>();
     List<Map.Entry<String, BigDecimal>> pos = new ArrayList<>();
-    BigDecimal eps = new BigDecimal("0.005");
+
 
     for (Map.Entry<String, BigDecimal> e : map.entrySet()) {
       BigDecimal v = e.getValue();
@@ -60,7 +62,7 @@ public class Settlement {
       // Move to next person if balance is close to zero
       if (d.getValue().abs().compareTo(eps) <= 0)
         i++;
-      if (c.getValue().abs().compareTo(eps) <= 0)
+      if (c.getValue().compareTo(eps) <= 0)
         j++;
     }
 
