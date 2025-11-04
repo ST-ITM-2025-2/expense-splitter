@@ -58,7 +58,7 @@ public class AppTest {
             BigDecimal result = app.readBigDecimal("Enter amount: ");
             String output = outContent.toString();
 
-            assertEquals(new BigDecimal("50.5"), result);
+assertTrue(result.compareTo(new BigDecimal("50.5")) == 0)
             assertTrue(output.contains("Please enter a valid number."));
             assertTrue(output.contains("Amount must be greater than zero"));
         } finally {
