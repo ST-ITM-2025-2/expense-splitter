@@ -4,13 +4,14 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 public class ExpenseStore {
 
   public static final String HEADER = "date,payer,amount,currency,participants,category,notes";
 
-  public ArrayList<Expense> load(String path) throws IOException {
+  public List<Expense> load(String path) throws IOException {
     // TODO (Issue 1): parse CSV file into Expense list.
     // Format: date,payer,amount,currency,participants,category,notes
     // participants are semicolon-separated.
@@ -33,7 +34,7 @@ public class ExpenseStore {
     
     boolean fileExists = file.exists() && file.length() > 0;
     
-    try (FileWriter fw = new FileWriter(file, true); // append mode
+    try (FileWriter fw = new FileWriter(file, StandardCharsets.UTF_8, true); // append mode
          PrintWriter pw = new PrintWriter(fw)) {
       
       // Write header if file is new or empty
