@@ -63,13 +63,13 @@ public class Splitter {
           for(String person : names) {
               total = total.add(result.getAmount(person));
           }
-          // System.out.println("[before distributing] current total net is "+total);
+
           if(total.compareTo(BigDecimal.valueOf(0.00)) != 0) {
               // current total net
               result.put(payer, result.getAmount(payer).subtract(total));
               total = BigDecimal.valueOf(0.00);
           }
-          // System.out.println("[after distributing] current total net is "+total);
+
       }
       //Sum nets so total = 0; scale(2) rounding HALF_EVEN when needed.
 
@@ -81,11 +81,11 @@ public class Splitter {
           Random random = new Random();
           String ranName = names.get(random.nextInt(names.size()));
           result.put(ranName, result.getAmount(ranName).subtract(total));
-
-          return result;
-      } else {
-          return result;
       }
-//      System.out.println("The total amount of net is "+total); // should be 0
+      return result;
+
+  }
+}
+
   }
 }
