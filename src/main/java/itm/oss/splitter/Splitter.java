@@ -3,7 +3,7 @@ package itm.oss.splitter;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.Collections;
 
 public class Splitter {
     /**
@@ -75,11 +75,11 @@ public class Splitter {
       for(String person : names) {
           total = total.add(result.getAmount(person));
       }
-      if(total.compareTo(BigDecimal.valueOf(0.00)) != 0) {
-          // decide who will receive the leftover
-          Random random = new Random();
-          String ranName = names.get(random.nextInt(names.size()));
-          result.put(ranName, result.getAmount(ranName).subtract(total));
+      if (total.compareTo(BigDecimal.valueOf(0.00)) != 0) {
+    // make deterministic choice instead of random
+        Collections.sort(names); // dictionary order
+        String chosen = names.get(0); // choose the first one
+        result.put(chosen, result.getAmount(chosen).subtract(total));
       }
       return result;
 
