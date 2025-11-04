@@ -96,4 +96,34 @@ public class AppTest {
         }
     }
 
+
+private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+private PrintStream originalOut;
+private InputStream originalIn;
+
+@BeforeEach
+void setUpStreams() {
+    originalOut = System.out;
+    originalIn = System.in;
+    System.setOut(new PrintStream(outContent));
+}
+
+@AfterEach
+void restoreStreams() {
+    System.setOut(originalOut);
+    System.setIn(originalIn);
+    outContent.reset(); // 다음 테스트 간 출력 겹침 방지
+}
+
+@Test
+@DisplayName("Edge Case: readBigDecimal rejects invalid amounts")
+void testReadBigDecimal_InvalidAmount_ShowsError() {
+    App app = createAppWithSimulatedInput("abc\n0\n-100\n50.5\n");
+
+    BigDecimal result = app.readBigDecimal("Enter amount: ");
+    String output = outContent.toString();
+
+    assertEquals(new BigDecimal("50.5"), result);
+    assertTrue(output.contains("Please enter a valid number."));
+    assertTrue(output.contains("Amount must be greater than zero"));
 }
