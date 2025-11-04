@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach; // (추가) 파일을 쉽게 읽기 위해 import
 import org.junit.jupiter.api.Test;
+import java.nio.charset.StandardCharsets;
 
 class ExpenseStoreTest {
 
@@ -86,7 +87,7 @@ class ExpenseStoreTest {
         assertTrue(testFile.exists(), "append() 호출 후 파일이 생성되어야 합니다.");
 
         // (선택) 파일 내용을 간단히 읽어서 확인해보기
-        try (Scanner scanner = new Scanner(testFile)) {
+        try (Scanner scanner = new Scanner(testFile, StandardCharsets.UTF_8)) {
             // 첫 번째 줄 (헤더) 검증
             assertTrue(scanner.hasNextLine(), "헤더 라인이 있어야 합니다.");
             assertEquals(ExpenseStore.HEADER, scanner.nextLine());
@@ -117,7 +118,7 @@ class ExpenseStoreTest {
 
         // 3. Then (검증)
         File testFile = new File(TEST_FILE_PATH);
-        try (Scanner scanner = new Scanner(testFile)) {
+        try (Scanner scanner = new Scanner(testFile, StandardCharsets.UTF_8)) {
             // (1) 헤더 검증
             assertEquals(ExpenseStore.HEADER, scanner.nextLine());
             
@@ -156,7 +157,7 @@ class ExpenseStoreTest {
 
         // 3. Then (검증)
         File testFile = new File(TEST_FILE_PATH);
-        try (Scanner scanner = new Scanner(testFile)) {
+        try (Scanner scanner = new Scanner(testFile, StandardCharsets.UTF_8)) {
             // 헤더 건너뛰기
             scanner.nextLine();
 
