@@ -66,6 +66,9 @@ Name | GitHub ID | Group Name | Assigned Group Number |
  Minhee     | @MHJeong730 | BranchOps | 8|
  Agnes      | @sengA7 | BranchOps | 8|
  Sascha Huber     | @saschahuberzh | BranchOps | 8|
+ Birk       | @BirkLauritzen | Libima | 9|
+ Matias     | @Poppaluu      | Libima | 9|
+ Lim        | @driedoutjerky | Libima | 9|
 
 
 ---
