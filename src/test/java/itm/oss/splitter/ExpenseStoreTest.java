@@ -31,7 +31,7 @@ public class ExpenseStoreTest {
     Path tempDir;
 
     @Test
-    void load_happyPath() throws Exception {
+    void loadHappyPath() throws Exception {
         // Create a temporary CSV file with test data
         String csvData = "date,payer,amount,currency,participants,category,notes\n" +
                 "2025-10-01,Alice,60.00,USD,Alice;Bob;Cara,Food,Pizza night\n" +
@@ -94,5 +94,17 @@ public class ExpenseStoreTest {
 
         assertEquals(1, list.size(), "Ignore malformed file");
     }
+
+    //file doesn't exist
+    @Test
+    void loadFileNotFound() throws Exception {
+        ExpenseStore store = new ExpenseStore();
+        String nonExistentFile = tempDir.resolve("does_not_exist.csv").toString();
+
+        ArrayList<Expense> list = store.load(nonExistentFile);
+
+        assertEquals(0, list.size(), "Return an empty list when the file doesn't exist");
+    }
+
 
 }
