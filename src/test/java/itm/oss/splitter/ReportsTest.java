@@ -21,7 +21,7 @@ class ReportsTest {
     }
 
     /** 
-     * Tests totals by category with normal inputs, including null category handling.
+     * Tests totals by category with normal inputs, including 'Uncategorized' category handling.
      */
     @Test
     @DisplayName("should calculate totals correctly for multiple categories")
@@ -35,10 +35,10 @@ class ReportsTest {
 
         SimpleMap totals = reports.totalsByCategory(expenses);
 
-        assertArrayEquals(new String[]{"Food", "Travel", ""}, totals.keys());
+        assertArrayEquals(new String[]{"Food", "Travel", "Uncategorized"}, totals.keys());
         assertEquals(new BigDecimal("15.50"), totals.get("Food"));
         assertEquals(new BigDecimal("20.00"), totals.get("Travel"));
-        assertEquals(new BigDecimal("7.25"), totals.get(""));
+        assertEquals(new BigDecimal("7.25"), totals.get("Uncategorized"));
     }
 
     /**
@@ -87,36 +87,38 @@ class ReportsTest {
     }
     /**
      * Tests if categories with different capitalization (e.g., "Food" and "food")
-     * are treated as distinct keys.
+     * are treated as the same category.
      */
     @Test
-    @DisplayName("should treat categories with different casing as distinct")
+    @DisplayName("should treat different case categories as same category")
     void totalsByCategory_WhenCategoriesHaveDifferentCase() {
         ArrayList<String> participants = new ArrayList<>(Arrays.asList("Alice"));
         ArrayList<Expense> expenses = new ArrayList<>();
         expenses.add(new Expense("2024-01-01", "Alice", new BigDecimal("10"), "USD", participants, "Food", ""));
-        expenses.add(new Expense("2024-01-02", "Alice", new BigDecimal("20"), "USD", participants, "food", ""));
+        expenses.add(new Expense("2024-01-02", "Alice", new BigDecimal("20"), "USD", participants, "fOoD", ""));
         SimpleMap totals = reports.totalsByCategory(expenses);
 
-        assertEquals(2, totals.keys().length, "Should be two distinct keys.");
-        assertEquals(new BigDecimal("10"), totals.get("Food"), "Total for 'Food' should be 10.");
-        assertEquals(new BigDecimal("20"), totals.get("food"), "Total for 'food' should be 20.");
+        
+        assertEquals(new BigDecimal("30"), totals.get("Food"), "Total for 'Food' should be 10.");
+        assertEquals(1, totals.keys().length);
     }
 
     /**
-     * Tests if 'null' categories and empty string "" categories
-     * are correctly grouped together into a single "" key.
+     * Tests if 'null' categories and empty string "" categories and "Uncategorized"
+     * are correctly grouped together into a single "Uncategorized" category.
      */
     @Test
-    @DisplayName("should group 'null' and 'empty string' categories together")
+    @DisplayName("should treat 'null' and 'Uncategorized' and 'empty string categories' as same category 'Uncategorized'")
     void totalsByCategory_WithNullAndEmptyStringCategories() {
         ArrayList<String> participants = new ArrayList<>(Arrays.asList("Alice"));
         ArrayList<Expense> expenses = new ArrayList<>();
         expenses.add(new Expense("2024-01-01", "Alice", new BigDecimal("100"), "USD", participants, null, "Null category"));
-        expenses.add(new Expense("2024-01-02", "Alice", new BigDecimal("50"), "USD", participants, "", "Empty string category"));
+        expenses.add(new Expense("2024-01-02", "Alice", new BigDecimal("50"), "USD", participants, "Uncategorized", "Uncategorized category"));
+        expenses.add(new Expense("2024-01-03", "Alice", new BigDecimal("20"), "USD", participants, "", "Empty string category"));
 
         SimpleMap totals = reports.totalsByCategory(expenses);
-        assertEquals(1, totals.keys().length, "Should be only one key.");
-        assertEquals(new BigDecimal("150"), totals.get(""), "Total for '' (null + empty) should be 150.");
+        assertEquals(1, totals.keys().length, "There should be only one category for null, 'Uncategorized' and empty string.");
+        assertEquals(new BigDecimal("170"), totals.get("Uncategorized"), "Total for 'Uncategorized' should be 170.");
+        assertEquals(1, totals.keys().length);
     }
 }
