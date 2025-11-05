@@ -47,7 +47,46 @@ public class ExporterTest {
         String content = Files.readString(createdFile.toPath()).trim();
         assertEquals("from,to,amount", content, "When the list is empty, only header should be present");
     }
-    
+    	@Test
+	public void writePaymentsCsv_handlesNegativeAmount() throws Exception {
+		// Prepare a Payment list with a negative amount
+		ArrayList<Payment> pays = new ArrayList<>();
+		pays.add(new Payment("Bob", "Charlie", new BigDecimal("-15.5")));
+
+		// Specify CSV file path (for edge case testing)
+		String path = "data/edgecases/negative.csv";
+
+		// Create parent directory if it does not exist
+		File file = new File(path);
+		File parent = file.getParentFile();
+		if (parent != null && !parent.exists()) {
+			parent.mkdirs();
+		}
+
+		// Delete the existing file before running the test
+		if (file.exists()) {
+			file.delete();
+		}
+
+		// Execute the Exporter functionality
+		Exporter.writePaymentsCsv(path, pays);
+
+		// Check if the file was created
+		assertTrue(file.exists(), "CSV file should be created.");
+
+		// Read the file and verify its content
+		java.util.List<String> lines = Files.readAllLines(file.toPath());
+
+		// The CSV should contain 2 lines (header + 1 data row)
+		assertEquals(2, lines.size(), "CSV should contain header and one data row.");
+
+		// The first line should be the header
+		assertEquals("from,to,amount", lines.get(0));
+
+		// The second line should correctly show the negative amount (-15.50)
+		assertEquals("Bob,Charlie,-15.50", lines.get(1));
+	}
+
 }
 
 
