@@ -121,7 +121,7 @@ public class ReportsTest {
             assertMoney("3.33",  m.get("Alice").getOwedTotal(), "Alice owes");
             assertMoney("3.33",  m.get("Bob").getOwedTotal(),   "Bob owes");
             assertMoney("3.33",  m.get("Cara").getOwedTotal(),  "Cara owes");
-            // If later a function for descributing remainder cents, the assertions will have to be updated.
+            // If later a function for distributing remainder cents, the assertions will have to be updated.
         }
 
         @Test
