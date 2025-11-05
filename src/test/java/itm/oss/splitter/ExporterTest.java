@@ -25,10 +25,10 @@ public class ExporterTest {
 
         Exporter.writePaymentsCsv(path, pays);
 
-        File file = new File(path);
-        assertTrue(file.exists(), "csv file needs to be created");
+        File createdFile = new File(path);
+        assertTrue(createdFile.exists(), "csv file needs to be created");
 
-        String content = Files.readString(file.toPath());
+        String content = Files.readString(createdFile.toPath());
         assertTrue(content.contains("from,to,amount"), "needs to include csv header");
         assertTrue(content.contains("Alice,Bob,30"), "needs to include payment record");
     }
