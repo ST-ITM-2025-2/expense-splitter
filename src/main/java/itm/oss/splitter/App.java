@@ -66,14 +66,7 @@ public class App {
       dir.mkdirs();
   }
 
-<<<<<<< HEAD
-  private void addExpenseFlow() throws Exception {
-    String date = readLine("Date (YYYY-MM-DD): ");
-    String payer = readLine("Payer: ");
-    BigDecimal amount = new readBigDecimal("Amount: ");
-    String currency = readLine("Currency (e.g., USD): ");
-    String participantsStr = readLine("Participants (semicolon-separated): ");
-=======
+
   void addExpenseFlow() throws Exception {
     //String date = readLine("Date (YYYY-MM-DD): ");
     String date = readRequiredLine("Date (YYYY-MM-DD): ");
@@ -84,7 +77,7 @@ public class App {
     String currency = readRequiredLine("Currency (e.g., USD): ");
     //String participantsStr = readLine("Participants (semicolon-separated): ");
     String participantsStr = readRequiredLine("Participants (semicolon-separated): ");
->>>>>>> 2ec6e8339d3a50fd2c42ef46175c00c16035ae30
+
     ArrayList<String> participants = parseParticipants(participantsStr);
     //String category = readLine("Category: ");
     String category = readRequiredLine("Category: ");
@@ -235,11 +228,8 @@ public class App {
     return r;
   }
   
-<<<<<<< HEAD
-  private BigDecimal readBigDecimal (String prompt) {
-=======
+
   BigDecimal readBigDecimal (String prompt) {
->>>>>>> 2ec6e8339d3a50fd2c42ef46175c00c16035ae30
     while(true) {
       System.out.print(prompt);
       String scan = sc.nextLine().trim();
