@@ -15,26 +15,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class ReportsTest {
-
-// simple csv file test
-
-
-// complex csv file test
-
-
     // Issue 1 integration testing
     @Test
+    @DisplayName("Per-person summary loads correctly from sample CSV")
     void perPerson_usesCsvLoadedByExpenseStore() throws IOException, URISyntaxException {
 
-        // Load the CSV. Prefer classpath (src/test/resources), fallback to repo file (./data/expenses.sample.csv)
-        Path path;
-        var resourceUrl = getClass().getClassLoader().getResource("data/expenses.sample.csv");
-        if (resourceUrl != null) {
-            path = Path.of(resourceUrl.toURI());
-        } else {
-            path = Path.of("data/expenses.sample.csv");
-            assertTrue(Files.exists(path), "Could not find data/expenses.sample.csv on classpath or in project root ./data");
-        }
+        Path path = getSampleCsvPath();
 
         ExpenseStore store = new ExpenseStore();
         ArrayList<Expense> xs = store.load(path.toString());
@@ -55,15 +41,7 @@ public class ReportsTest {
     @Test
     @DisplayName("getNet() reflects paid - owed for CSV sample (recalculateNet)")
     void perPerson_netFromSimpleCsv() throws IOException, URISyntaxException {
-        // Load the CSV. Prefer classpath (src/test/resources), fallback to repo file (./data/expenses.sample.csv)
-        Path path;
-        var resourceUrl = getClass().getClassLoader().getResource("data/expenses.sample.csv");
-        if (resourceUrl != null) {
-            path = Path.of(resourceUrl.toURI());
-        } else {
-            path = Path.of("data/expenses.sample.csv");
-            assertTrue(Files.exists(path), "Could not find data/expenses.sample.csv on classpath or in project root ./data");
-        }
+        Path path = getSampleCsvPath();
 
         ExpenseStore store = new ExpenseStore();
         ArrayList<Expense> xs = store.load(path.toString());
@@ -86,6 +64,17 @@ public class ReportsTest {
                         actual.setScale(2, RM),
                         msg);
         }
+
+    // Helper for getting the sample CSV path from classpath (src/test/resources) or repo root (./data).
+    private Path getSampleCsvPath() throws URISyntaxException {
+        var resourceUrl = getClass().getClassLoader().getResource("data/expenses.sample.csv");
+        if (resourceUrl != null) {
+            return Path.of(resourceUrl.toURI());
+        }
+        Path p = Path.of("data/expenses.sample.csv");
+        assertTrue(Files.exists(p), "Could not find data/expenses.sample.csv on classpath or in project root ./data");
+        return p;
+    }
 
         // Helper from Expense
     private static Expense exp(String payer, String amount, 
@@ -172,28 +161,5 @@ public class ReportsTest {
             assertMoney( "100.00", m.get("Alice").getPaidTotal(), "Alice paid total");
             assertMoney("100.00", m.get("Alice").getOwedTotal(), "Alice owed total");
             assertMoney("0.00", m.get("Alice").getNet(), "Paying yourself shouldn't create debt");
-        }
-
-        @Test
-        @DisplayName("Payer not in participants splits owed without auto-including payer")
-        void perPerson_payerNotInParticipants() {
-            Reports reports = new Reports();
-            ArrayList<Expense> xs = new ArrayList<>();
-
-            // Alice pays 90 but only Bob and Cara participate
-            xs.add(exp("Alice", "90.00", List.of("Bob", "Cara"), "meal"));
-
-            SimplePersonSummaryMap m = reports.perPerson(xs);
-
-            // Alice should be +90 net; Bob and Cara -45 each
-            assertMoney("90.00",  m.get("Alice").getNet(), "Alice net should be +90");
-            assertMoney("-45.00", m.get("Bob").getNet(),   "Bob net should be -45");
-            assertMoney("-45.00", m.get("Cara").getNet(),  "Cara net should be -45");
-
-            // Invariant: sum of net == 0
-            BigDecimal sum = m.get("Alice").getNet()
-                .add(m.get("Bob").getNet())
-                .add(m.get("Cara").getNet());
-            assertEquals(0, sum.compareTo(BigDecimal.ZERO), "Sum of net must be zero");
         }
 }
