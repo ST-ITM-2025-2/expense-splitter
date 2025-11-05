@@ -34,17 +34,17 @@ public class ExporterTest {
     }
 
     @Test
-    public void testWritePaymentsCsv_handlesEmptyList() throws Exception {
+    public void writePaymentsCsv_handlesEmptyList() throws Exception {
         
         ArrayList<Payment> pays = new ArrayList<>();
         String path = "data/test_empty.csv";
 
         Exporter.writePaymentsCsv(path, pays);
 
-        File file = new File(path);
-        assertTrue(file.exists(), "Though empty, file needs to be created");
+        File createdFile = new File(path);
+        assertTrue(createdFile.exists(), "Though empty, file needs to be created");
 
-        String content = Files.readString(file.toPath()).trim();
+        String content = Files.readString(createdFile.toPath()).trim();
         assertEquals("from,to,amount", content, "When the list is empty, only header should be present");
     }
     
