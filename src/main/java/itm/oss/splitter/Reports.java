@@ -14,7 +14,9 @@ public class Reports {
       String category = e.getCategory();
 
       if (category == null || category.trim().isEmpty()) {
-        category = "uncategorized";
+        category = "Uncategorized";
+      } else {
+        category = category.substring(0, 1).toUpperCase() + category.substring(1).toLowerCase();
       }
       
       BigDecimal amount = e.getAmount();
