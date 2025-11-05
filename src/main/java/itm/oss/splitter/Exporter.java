@@ -32,6 +32,8 @@ public class Exporter {
           String to = (p.getTo() == null) ? "" : p.getTo();
           String amount = "";
 
+          // Enforce banking-style rounding (HALF_EVEN) with 2 decimal places
+          // to ensure financial accuracy and CSV compatibility
           if(p.getAmount() != null) {
             amount = p.getAmount().setScale(2, RoundingMode.HALF_EVEN).toString();
           }
