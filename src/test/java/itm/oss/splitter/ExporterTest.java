@@ -10,7 +10,7 @@ import java.math.*;
 public class ExporterTest {
 
     @Test
-    public void testWritePaymentsCsv_createsFileWithHeader() throws Exception {
+    public void writePaymentsCsv_createsFileWithHeader() throws Exception {
         
         ArrayList<Payment> pays = new ArrayList<>();
         pays.add(new Payment("Alice", "Bob",  new BigDecimal("30.0")));
