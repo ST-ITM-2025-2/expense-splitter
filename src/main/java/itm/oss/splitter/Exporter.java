@@ -11,6 +11,10 @@ public class Exporter {
 
     File file = new File(path);
 
+    File parent = file.getParentFile();
+    if(parent != null && !parent.exists()) {
+      java.nio.file.Files.createDirectories(parent.toPath());
+    }
     // Automatically close using try-with-resources
     try (FileWriter writer = new FileWriter(file)) {
 
