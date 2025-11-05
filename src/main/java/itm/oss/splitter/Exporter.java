@@ -19,7 +19,7 @@ public class Exporter {
     try (FileWriter writer = new FileWriter(file)) {
 
       // CSV header
-      writer.write("from,to,amount");
+      writer.write("from,to,amount\n");
       if( pays == null || pays.isEmpty()) {
         return;
       }
