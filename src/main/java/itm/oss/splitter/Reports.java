@@ -4,15 +4,34 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class Reports {
 
-    public SimpleMap totalsByCategory(ArrayList<Expense> xs) {
-        // TODO (Issue 6): sum amounts per category
-        throw new UnsupportedOperationException("totalsByCategory() not implemented yet");
+  public SimpleMap totalsByCategory(ArrayList<Expense> xs) {
+    LinkedHashMap<String, BigDecimal> totals = new LinkedHashMap<>();
+
+    for (int i = 0; i < xs.size(); i++) {
+      Expense e = xs.get(i);
+      String category = e.getCategory();
+
+      if (category == null || category.trim().isEmpty()) {
+        category = "Uncategorized";
+      } else {
+        category = category.substring(0, 1).toUpperCase() + category.substring(1).toLowerCase();
+      }
+      
+      BigDecimal amount = e.getAmount();
+      BigDecimal current = totals.get(category);
+      totals.put(category, current == null ? amount : current.add(amount));
     }
 
+    SimpleMap out = new SimpleMap();
+    for (String category : totals.keySet())
+      out.put(category, totals.get(category));
+    return out;
+  }
 
     /**
      * Calculates a summary of payments and debts for each person involved in expenses.

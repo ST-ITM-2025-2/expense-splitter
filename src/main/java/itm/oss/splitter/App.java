@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class App {
 
-  private static final String DATA_FILE = "data/expenses.sample2.csv";
+  private static final String DATA_FILE = "data/expenses.sample.csv";
 
   private final Scanner sc = new Scanner(System.in);
   private final ExpenseStore store = new ExpenseStore();
