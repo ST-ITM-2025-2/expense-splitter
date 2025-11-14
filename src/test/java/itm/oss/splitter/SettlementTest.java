@@ -27,7 +27,7 @@ public class SettlementTest {
     }
 
     @Test
-    void tinyAmountTest() {
+    void test_ignoresPayments_whenBalanceIsBelowThreshold() {
         // Small values should be ignored (less than 0.005)
         Balance b = new Balance();
         b.put("Alice", new BigDecimal("-0.004"));
