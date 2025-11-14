@@ -49,7 +49,7 @@ Name | GitHub ID | Group Name | Assigned Group Number |
  Park So Yeon  | @so-yeon-333 | Kka-Mong-Ju | 2|
  Kim Gyeong Yoon | @Gyeongyoon | Kka-Mong-Ju | 2|
  Kim Geon     | @GeonKim0422 | Team F1 | 3|
- Kim Sinwoo     | @yourgithubid | Team F1 | 3|
+ Kim Sinwoo     | @bigmansinwoo-coder | Team F1 | 3|
  Kim Junu     | @MelonChicken | Team F1 | 3|
   ParkMinjoon     | @ERE252 | OpenMinded | 4|
  HongJunsoo     | @Jeffrey-Hong1005 |  OpenMinded | 4|
@@ -66,6 +66,9 @@ Name | GitHub ID | Group Name | Assigned Group Number |
  Minhee     | @MHJeong730 | BranchOps | 8|
  Agnes      | @sengA7 | BranchOps | 8|
  Sascha Huber     | @saschahuberzh | BranchOps | 8|
+ Birk       | @BirkLauritzen | Libima | 9|
+ Matias     | @Poppaluu      | Libima | 9|
+ Lim        | @driedoutjerky | Libima | 9|
 
 
 ---
