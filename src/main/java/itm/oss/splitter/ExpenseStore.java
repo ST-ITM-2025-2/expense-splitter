@@ -2,9 +2,9 @@ package itm.oss.splitter;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.nio.file.Paths;
 
 public class ExpenseStore {
 
@@ -74,16 +74,16 @@ public class ExpenseStore {
     }
 
     return returnList ;
-    }
+  }
 
-    public void append(String path, Expense e) throws IOException {
-        // TODO (Issue 2): append a row to CSV (create file with header if missing).
-        throw new UnsupportedOperationException("append() not implemented yet");
-    }
+  public void append(String path, Expense e) throws IOException {
+    // TODO (Issue 2): append a row to CSV (create file with header if missing).
+    throw new UnsupportedOperationException("append() not implemented yet");
+  }
 
-    // Optional helper
-    Expense parseLine(String line) {
-        // split by comma (basic), then build Expense (participants split by ';')
-        throw new UnsupportedOperationException("parseLine() not implemented yet");
-    }
+  // Optional helper
+  Expense parseLine(String line) {
+    // split by comma (basic), then build Expense (participants split by ';')
+    throw new UnsupportedOperationException("parseLine() not implemented yet");
+  }
 }

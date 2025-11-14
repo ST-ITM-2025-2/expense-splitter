@@ -66,20 +66,26 @@ public class App {
       dir.mkdirs();
   }
 
-  private void addExpenseFlow() throws Exception {
-    String date = readLine("Date (YYYY-MM-DD): ");
-    String payer = readLine("Payer: ");
-    BigDecimal amount = new BigDecimal(readLine("Amount: "));
-    String currency = readLine("Currency (e.g., USD): ");
-    String participantsStr = readLine("Participants (semicolon-separated): ");
+
+  void addExpenseFlow() throws Exception {
+    //String date = readLine("Date (YYYY-MM-DD): ");
+    String date = readRequiredLine("Date (YYYY-MM-DD): ");
+    //String payer = readLine("Payer: ");
+    String payer = readRequiredLine("Payer: ");
+    BigDecimal amount = readBigDecimal("Amount: ");
+    //String currency = readLine("Currency (e.g., USD): ");
+    String currency = readRequiredLine("Currency (e.g., USD): ");
+    //String participantsStr = readLine("Participants (semicolon-separated): ");
+    String participantsStr = readRequiredLine("Participants (semicolon-separated): ");
     ArrayList<String> participants = parseParticipants(participantsStr);
-    String category = readLine("Category: ");
+    //String category = readLine("Category: ");
+    String category = readRequiredLine("Category: ");
     String notes = readLine("Notes (optional): ");
 
     Expense exp = new Expense(date, payer, amount, currency, participants, category, notes);
     ExpenseValidator.validate(exp);
     store.append(DATA_FILE, exp);
-    System.out.println("Expense added.");
+    System.out.println("SUCCESS: Expense added.");
   }
 
   private void listExpensesFlow() throws Exception {
@@ -175,6 +181,18 @@ public class App {
     return sc.nextLine().trim();
   }
 
+  String readRequiredLine(String prompt) {
+    while (true) {
+        System.out.print(prompt);
+        String s = sc.nextLine().trim();
+        if (s.isEmpty()) {
+            System.out.println("This field is required and cannot be empty.");
+        } else {
+            return s;
+        }
+    }
+  }
+
   private ArrayList<String> parseParticipants(String s) {
     ArrayList<String> out = new ArrayList<String>();
     String[] parts = s.split(";");
@@ -208,4 +226,25 @@ public class App {
       r = r + sep + xs.get(i);
     return r;
   }
+  
+  //Validates user input and returns a positive BigDecimal value.
+  BigDecimal readBigDecimal(String prompt) {
+    while(true) {
+      System.out.print(prompt);
+      String scan = sc.nextLine().trim();
+      try {
+        BigDecimal value = new BigDecimal(scan);
+        if (value.compareTo(BigDecimal.ZERO) <= 0) {
+          System.out.println("Amount must be greater than zero");
+          continue;
+        }
+        return value;
+      } catch (NumberFormatException e) {
+        System.out.println("Please enter a valid number.");
+      }
+    }
+  }
+
+
+
 }
